@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: oklch(0.1246 0 0);
+  --color-forground: oklch(0.9822 0 35.23);
+  --font-body: var(--font-inter);
+  --font-headings: var(--font-geist);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headings);
+  font-weight: 700;
+  line-height: 1em;
+}
+body {
+  font-weight: 400;
+  background: var(--color-background);
+  color: var(--color-forground);
+  font-family: var(--font-body);
+}
