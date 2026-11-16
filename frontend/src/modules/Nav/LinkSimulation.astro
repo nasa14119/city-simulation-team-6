@@ -1,0 +1,91 @@
+---
+const isSimulation = Astro.url.pathname.startsWith("/simulation");
+import Controls from "@modules/Controls.astro";
+import LinkItem from "./LinkItem.astro";
+---
+
+<LinkItem
+  class:list={{ active: isSimulation, link: !isSimulation }}
+  id="controls"
+  class="li-controls"
+  data-open={isSimulation}
+>
+  <a href="/simulation" class="z-10 link-simulation" id="link-container">
+    Jump in
+  </a>
+  <div id="controls-container" class="controls-container hidden" class="z-50">
+    <Controls />
+  </div>
+</LinkItem>
+<style>
+  @reference "@styles";
+  li {
+    transition: 250ms ease all;
+  }
+  .li-controls {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+  }
+  .li-controls[data-open="true"] {
+    & {
+      width: 100%;
+    }
+    &.link::after {
+      display: none;
+    }
+    .link-simulation {
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .controls-container {
+      display: flex;
+      pointer-events: auto;
+    }
+  }
+  .li-controls[data-open="false"] {
+    .link-simulation {
+      visibility: visible;
+    }
+    .controls-container {
+      display: none;
+      pointer-events: none;
+    }
+  }
+
+  .li-controls > * {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+  }
+  .controls-container {
+    @apply flex size-full items-center justify-center gap-x-2;
+  }
+</style>
+<script>
+  function updateActiveLink() {
+    const currentPath = window.location.pathname;
+    const link: HTMLDataListElement | null =
+      document.querySelector("#controls");
+    if (!link) return;
+    const isOpen = currentPath.startsWith("/simulation");
+    link.dataset.open = `${isOpen}`;
+  }
+  function customAnimation() {
+    const currentPath = window.location.pathname;
+    const isOpen = currentPath.startsWith("/simulation");
+    const link = document.querySelector<HTMLAnchorElement>("#link-container");
+    const controls = document.querySelector<HTMLAnchorElement>(
+      "#controls-container",
+    );
+    if (!link || !controls) return;
+    if (!isOpen) {
+      link.style.visibility = "visible";
+      controls.style.display = "none";
+    } else {
+      link.style.visibility = "hidden";
+      controls.style.display = "flex";
+    }
+  }
+  document.addEventListener("astro:page-load", updateActiveLink);
+  document.addEventListener("astro:after-swap", customAnimation);
+</script>

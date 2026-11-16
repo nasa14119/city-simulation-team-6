@@ -17,7 +17,13 @@ h6 {
   font-weight: 700;
   line-height: 1em;
 }
+.glass-bg {
+  background-color: #ffffff15;
+  backdrop-filter: blur(12px);
+  border: 1px solid #ffffff30;
+}
 body {
+  min-height: 100dvh;
   font-weight: 400;
   background: var(--color-background);
   color: var(--color-forground);

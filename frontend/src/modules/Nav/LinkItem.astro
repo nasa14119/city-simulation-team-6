@@ -1,0 +1,23 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"li"> {}
+const { class: className = "", ...rest } = Astro.props;
+---
+
+<li class:list={["link", className]} {...rest}>
+  <slot />
+</li>
+<style>
+  @reference "@styles";
+  .link {
+    @apply relative min-w-fit;
+  }
+  .link::after {
+    content: " ";
+    @apply absolute h-[0.1rem] inset-x-0 bottom-0 bg-amber-100 rounded-full invisible;
+  }
+  .link:hover::after {
+    @apply visible;
+  }
+</style>

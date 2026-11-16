@@ -1,9 +1,11 @@
 ---
 import { Font } from "astro:assets";
-import "../styles/global.css";
+import "@styles/global.css";
 interface Props {
   title?: string;
 }
+import Nav from "@modules/Nav/Nav.astro";
+import { ClientRouter } from "astro:transitions";
 const { title = "City Simulation" } = Astro.props;
 ---
 
@@ -14,9 +16,11 @@ const { title = "City Simulation" } = Astro.props;
     <Font cssVariable="--font-inter" preload />
     <Font cssVariable="--font-geist" preload />
     <meta name="viewport" content="width=device-width" />
+    <ClientRouter />
     <title>{title}</title>
   </head>
   <body>
+    <Nav />
     <slot />
   </body>
 </html>

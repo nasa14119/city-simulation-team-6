@@ -1,0 +1,28 @@
+---
+import LinkItem from "./LinkItem.astro";
+import LinkSimulation from "./LinkSimulation.astro";
+---
+
+<nav class="glass-bg" transition:persist="main-nav">
+  <ul>
+    <LinkItem>
+      <a href="/">Home</a>
+    </LinkItem>
+    <LinkSimulation class="link" />
+    <LinkItem>
+      <a href="/about">About Us</a>
+    </LinkItem>
+  </ul>
+</nav>
+<style>
+  @reference "@styles";
+  nav {
+    interpolate-size: allow-keywords;
+    width: 90%;
+    margin-inline: auto;
+    @apply sticky rounded-full mb-2 top-2;
+  }
+  ul {
+    @apply font-headings font-light flex justify-center gap-x-2 items-center py-[1lvh] p-10;
+  }
+</style>

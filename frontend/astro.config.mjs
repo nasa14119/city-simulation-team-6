@@ -19,7 +19,11 @@ export default defineConfig({
       weights: ["100 900"],
     },
   ],
+
   vite: {
+    resolve: {
+      tsconfigPaths: true,
+    },
     plugins: [tailwindcss()],
   },
 });
