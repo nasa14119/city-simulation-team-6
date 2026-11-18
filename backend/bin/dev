@@ -1,0 +1,7 @@
+source .env
+source .venv/bin/activate
+
+# Env vars
+PORT=${PORT:-4000}
+
+uv run fastapi dev --port $PORT src/router.py
