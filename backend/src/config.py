@@ -1,7 +1,13 @@
-from decouple import config
+from decouple import UndefinedValueError, config
 from dotenv import load_dotenv
 
-load_dotenv();
-CONFIG = {
-  "PORT": config("PORT")
-}
+
+def PORT():
+    try:
+        return int(config("PORT"))
+    except UndefinedValueError:
+        return 4000
+
+
+load_dotenv()
+CONFIG = {"PORT": PORT()}
