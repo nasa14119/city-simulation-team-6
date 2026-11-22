@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import type { Map as MapType } from "./Nodes.types";
+import { createStore } from "zustand";
 
 export type MapUpdateFn = (prev: MapType) => MapType;
 
@@ -8,7 +8,7 @@ type Store = {
   updateMap: (update: MapUpdateFn) => void;
 };
 
-export const Map = create<Store>()((set) => ({
+export const Map = createStore<Store>()((set) => ({
   map: [],
   updateMap: (fn) => set(({ map: prevMap }) => ({ map: fn(prevMap) })),
 }));
