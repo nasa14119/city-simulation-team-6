@@ -21,8 +21,7 @@ def server():
         await websocket.accept()
         con = Connection(websocket)
         try:
-            while True:
-                await con.send()
+            await con.send()
         except WebSocketDisconnect:
             con.disconect()
 

@@ -1,5 +1,5 @@
 import type { Map as MapType } from "./Nodes.types";
-import { createStore } from "zustand";
+import { createStore } from "zustand/vanilla";
 
 export type MapUpdateFn = (prev: MapType) => MapType;
 

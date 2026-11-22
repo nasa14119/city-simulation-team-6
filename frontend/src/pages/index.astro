@@ -3,3 +3,7 @@ import Main from "../layouts/Main.astro";
 ---
 
 <Main />
+<script>
+  import { helloTest } from "@modules/WebSocket";
+  helloTest.subscribe(({ message }) => console.log({ message }));
+</script>

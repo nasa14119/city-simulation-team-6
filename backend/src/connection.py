@@ -1,3 +1,5 @@
+from asyncio import Queue
+
 from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
 
@@ -8,18 +10,15 @@ class Connection(Observer):
     def __init__(self, ws: WebSocket):
         self.ws = ws
         manager.attachObserver(self)
-        self.events = []
+        self.events = Queue()
 
     async def send(self):
-        if not self.events:
-            return
-        events = self.events[:]
-        self.events = []
-        for event in events:
+        while True:
+            event = await self.events.get()
             await self.ws.send_json(jsonable_encoder(event))
 
     def notify(self, event, payload):
-        self.events.append({"event": event, "payload": payload})
+        self.events.put_nowait({"event": event, "payload": payload})
 
     def disconect(self):
         manager.detattachObserver(self)
