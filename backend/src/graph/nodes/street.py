@@ -1,3 +1,5 @@
+from typing import cast
+
 from .node_base import Direction, NodeBase, NodeTypes
 
 DIRECTIONS = {
@@ -5,6 +7,13 @@ DIRECTIONS = {
     "<": Direction.Left,
     "∧": Direction.Up,
     "∨": Direction.Down,
+}
+
+OPPOSITES = {
+    Direction.Right: Direction.Left,
+    Direction.Left: Direction.Right,
+    Direction.Down: Direction.Up,
+    Direction.Up: Direction.Down,
 }
 
 BLOCKED_PENALTY = lambda s=None: 20
@@ -46,8 +55,16 @@ class Street(NodeBase):
         self.vehicles = [v for v in self.vehicles if vehicle != v]
 
     def connect_graph(self, graph) -> None:
-        sur = self.grab_surrounding_directionated(graph, filter=self.type)
-        return super().connect_graph(graph)
+        pending = self.grab_surrounding_directionated(graph, filter=self.type)
+        opposite = OPPOSITES[self.direction]
+        for key, node in pending.items():
+            node = cast(Street, node)
+            if not node:
+                continue
+            if key == opposite and node.direction == self.direction:
+                continue
+            if node:
+                self.conections[key] = node
 
     @property
     def type(self):

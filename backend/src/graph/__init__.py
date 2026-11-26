@@ -27,14 +27,9 @@ class Graph:
 
     def __connect_graph(self):
         graph = self.graph
-        for cors, node in np.ndenumerate(graph):
+        for node in graph.flat:
             node = cast(NodeBase, node)
             node.connect_graph(graph)
-        print(
-            graph[0][3].grab_surrounding_directionated(
-                graph, filters=[NodeTypes.STREET, NodeTypes.EMPTY]
-            )
-        )
 
 
 graph = Graph(MAP_PATH)
