@@ -54,8 +54,8 @@ class Street(NodeBase):
     def leave(self, vehicle):
         self.vehicles = [v for v in self.vehicles if vehicle != v]
 
-    def connect_graph(self, graph) -> None:
-        pending = self.grab_surrounding_directionated(graph, filter=self.type)
+    def connect_graph(self, instance) -> None:
+        pending = self.grab_surrounding_directionated(instance.graph, filter=self.type)
         opposite = OPPOSITES[self.direction]
         for key, node in pending.items():
             node = cast(Street, node)

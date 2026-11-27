@@ -2,8 +2,9 @@ from pathlib import Path
 from typing import cast
 
 import numpy as np
-from nodes import Direction, NodeBase, node_factory
-from nodes.node_base import NodeTypes
+
+from .buildings import Buildings
+from .nodes import NodeBase, node_factory
 
 MAP_PATH = Path(__file__).parent / "map.txt"
 
@@ -11,6 +12,7 @@ MAP_PATH = Path(__file__).parent / "map.txt"
 class Graph:
     def __init__(self, path) -> None:
         self.graph = self.read_map_file(path)
+        self.buildings = Buildings()
         self.__connect_graph()
 
     def read_map_file(self, path):
@@ -21,15 +23,16 @@ class Graph:
             for j in range(row):
                 line = file.readline().strip()
                 for i, ch in enumerate(line):
-                    curr = node_factory(ch)
-                    graph[j][i] = curr((j, i))
+                    Node = node_factory(ch)
+                    node = Node((j, i))
+                    graph[j][i] = node
         return graph
 
     def __connect_graph(self):
         graph = self.graph
         for node in graph.flat:
             node = cast(NodeBase, node)
-            node.connect_graph(graph)
+            node.connect_graph(self)
 
 
 graph = Graph(MAP_PATH)

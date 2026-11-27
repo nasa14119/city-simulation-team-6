@@ -1,8 +1,12 @@
 from abc import ABC, abstractmethod
 from enum import Enum
+from typing import TYPE_CHECKING
 
 import numpy as np
 from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from .. import Graph
 
 
 class Direction(Enum):
@@ -32,7 +36,7 @@ class NodeBase(ABC):
         pass
 
     @abstractmethod
-    def connect_graph(self, graph: NDArray[np.object_]) -> None:
+    def connect_graph(self, instance: "Graph") -> None:
         pass
 
     def grab_surrounding(self, graph: NDArray[np.object_]):
@@ -87,5 +91,5 @@ class Empty(NodeBase):
     def type(self):
         return NodeTypes.EMPTY
 
-    def connect_graph(self, graph: NDArray[np.object_]) -> None:
-        return super().connect_graph(graph)
+    def connect_graph(self, instance) -> None:
+        return super().connect_graph(instance)

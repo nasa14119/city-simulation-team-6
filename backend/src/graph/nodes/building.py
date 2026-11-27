@@ -10,8 +10,9 @@ class Building(NodeBase):
         super().__init__(cors)
         self.door: Street | None = None
 
-    def connect_graph(self, graph: NDArray[np.object_]):
-        self.pick_random_door(graph)
+    def connect_graph(self, instance):
+        self.pick_random_door(instance.graph)
+        instance.buildings.add_building(self)
 
     def pick_random_door(self, graph: NDArray[np.object_]):
         options = self.grab_surrounding(graph)
