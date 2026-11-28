@@ -104,6 +104,10 @@ export class Object3DProgram {
     (copy as { template: GeometryTemplate }).template = this.template;
     copy.color = color;
     copy.transforms = cloneTransforms(this.transforms);
+    copy.oldPosArray = this.oldPosArray;
+    copy.shininess = this.shininess;
+    copy.id = this.id;
+    copy.texture = this.texture;
     return copy;
   }
 }
