@@ -18,8 +18,9 @@ type SmartWsConstructor<T> = {
   onMessage: (mss: T) => void;
 };
 
-class SmartWs<T> {
+export class SmartWs<T> {
   ws: WebSocket;
+  private closeNow = false;
   private delay: number;
   readonly url: string;
   private onChangeConnection: SmartWsConstructor<T>["onChangeConnection"];
@@ -40,6 +41,7 @@ class SmartWs<T> {
     this.ws.onclose = () => {
       this.onChangeConnection(false);
       this.delay = this.delay * 2;
+      if (this.closeNow) return;
       this.reconnect();
     };
     this.ws.onmessage = (e) => {
@@ -58,8 +60,15 @@ class SmartWs<T> {
   async reconnect() {
     console.log(`reconecting after ${this.delay}s`);
     await sleep(this.delay * 1000);
+    if (this.closeNow) return;
     this.ws = new WebSocket(this.url);
     this.setup();
+  }
+
+  close() {
+    this.closeNow = true;
+    this.ws.close();
+    return this.closeNow
   }
 }
 
